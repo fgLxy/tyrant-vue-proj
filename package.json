@@ -1,6 +1,6 @@
 {
   "name": "@tyrant/tyrant-vue-proj",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "vue模板项目",
   "main": "index.js",
   "scripts": {

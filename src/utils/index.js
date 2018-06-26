@@ -1,20 +1,24 @@
 'use strict'
 
 const router = (requires) => {
-    let _routes = [];
+    let cache = {};
+    let _route = [];
     requires.keys().forEach(key => {
         let cacheKey = key.match(/\.\/(.*)\.js/)[1];
-        _routes[cacheKey] = requires(key).default;
+        cache[cacheKey] = requires(key).default;
         if (/\//.test(cacheKey)) {
-            _routes[cacheKey].parent = cacheKey.match(/(.*)\//)[1];
+            cache[cacheKey].parent = cacheKey.match(/(.*)\//)[1];
         }
     });
-    for (let key in _routes) {
-        if (!_routes[key].parent) continue;
-        _routes[_routes[key].parent].children = _routes[_routes[key].parent].children || [];
-        _routes[_routes[key].parent].children.push(_routes[key]);
+    for (let key in cache) {
+        if (!cache[key].parent) continue;
+        cache[cache[key].parent].children = cache[cache[key].parent].children || [];
+        cache[cache[key].parent].children.push(cache[key]);
     }
-    return _routes;
+    for (let key in cache) {
+        _route.push(cache[key]);
+    }
+    return _route;
 }
 
 const js = (requires) => {
